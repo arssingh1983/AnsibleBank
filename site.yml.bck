@@ -1,0 +1,89 @@
+---
+#
+# aasf-infra-auto/site.yml
+#
+# source = https://gitscm.cisco.com/projects/STIC/repos/aasf-infra-auto/browse/site.yml?raw
+#
+
+- name: run common role for all hosts
+  hosts: all
+  become: yes
+
+  roles:
+    - { role: common, tags: ["zookeeper", "kafka", "mesos-master", "marathon", "postgresql", "node0", "n0", "node1", "n1"] }
+
+- name: install Zookeeper on Zookeeper servers
+  hosts: zookeeper-servers
+  become: yes
+
+  roles:
+    - { role: zookeeper-master, tags: ["zookeeper", "node0", "n0", "node1", "n1"] }
+
+- name: install Kafka on Kafka servers
+  hosts: kafka-servers
+  become: yes
+
+  roles:
+    - { role: kafka, tags: ["kafka", "node0", "n0", "node1", "n1"] }
+
+- name: install Mesos Master on Mesos Master servers
+  hosts: mesos-masters
+  become: yes
+
+  roles:
+    - { role: mesos-master, tags: ["mesos-master", "node0", "n0"] }
+
+- name: install Mesos Slave role on Mesos Slaves
+  hosts: mesos-slaves
+  become: yes
+
+  roles:
+    - { role: mesos-slave, tags: ["mesos-slave", "node0", "n0"] }
+
+- name: install Marathon on Marathon servers
+  hosts: marathon-masters
+  become: yes
+
+  roles:
+    - { role: marathon-master, tags: ["marathon", "node0", "n0"] }
+
+- name: install PostgreSQL on PostgreSQL servers
+  hosts: postgresql-servers
+  become: yes
+
+  roles:
+    - { role: postgresql, tags: ["postgresql", "node0", "n0"] }
+
+- name: deploy custom components to remote node
+  hosts: remote-nodes
+  become: yes
+
+  roles:
+    - { role: remote-deploy, tags: ["remote-deploy", "node1", "n1"] }
+
+- name: deploy custom components to central nodes
+  hosts: central-nodes
+  become: yes
+
+  roles:
+    - { role: central-deploy, tags: ["central-deploy", "node0", "n0"] }
+
+- name: deploy elasticsearch to ES servers
+  hosts: elasticsearch-servers
+  become: yes
+
+  roles:
+    - { role: elasticsearch, tags: ["elasticsearch", "node0", "n0"] }
+
+# roles to add:
+# - custom components
+# - haproxy/keepalived
+# - elasticsearch
+# - logstash
+# - graphana
+# - flexDB
+
+# possible improvements for the future:
+# - allow users to pass in custom repositories for a given package
+# - set up more things in defaults
+# - enable clustering for PostgreSQL

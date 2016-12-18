@@ -1,0 +1,59 @@
+
+########################################################################################################
+## csf.connector.properties
+########################################################################################################
+
+## -----------------------------------------------------------------------------------------------------
+## server properties
+## -----------------------------------------------------------------------------------------------------
+
+## Server
+server.node.id={{ cen_node0_bulk_server_node_id }}
+server.conn.type={{ cen_node0_bulk_server_conn_type }}
+
+## Metrics
+metrics.delay.seconds={{ cen_node0_bulk_metrics_delay_seconds }}
+
+## TLS
+server.jks.file={{ cen_node0_bulk_server_jks_file }}
+server.jks.pass={{ cen_node0_bulk_server_jks_pass }}
+
+## Ports used by Jetty
+jetty.https.port={{ cen_node0_bulk_jetty_https_port }}
+jetty.http.port={{ cen_node0_bulk_jetty_http_port }}
+jetty.http.ip={{ cen_node0_bulk_jetty_http_ip }}
+
+## Server Topics
+server.out.topic.prefix={{ cen_node0_bulk_server_out_topic_prefix }}
+server.in.topic.prefix={{ cen_node0_bulk_server_in_topic_prefix }}
+server.file.in.topic.prefix={{ cen_node0_bulk_server_file_in_topic_prefix }}
+# server.attending.nodes = node-1, node-2, 70f0d17b-8e53-48ef-b0c2-f63c42ef0ae2, 11100000-0000-0000-0000-000000000000, 4fb0d336-181d-46cb-b657-7ca5bf49d053
+
+## File Storage
+server.file.storage.location={{ cen_node0_bulk_server_file_storage_location }}
+
+## Kafka
+server.kafka.group.id={{ cen_node0_bulk_server_kafka_group_id }}
+
+########################################################################################################
+## postgres.properties
+########################################################################################################
+rdbms.url={{ cen_node0_bulk_rdbms_url }}
+rdbms.username={{ cen_node0_bulk_rdbms_username }}
+rdbms.password={{ cen_node0_bulk_rdbms_password }}
+rdbms.driver={{ cen_node0_bulk_rdbms_driver }}
+rdbms.validation.query={{ cen_node0_bulk_rdbms_validation_query }}
+
+########################################################################################################
+## kafka.properties
+########################################################################################################
+
+# bootstrap.servers = csf-dev-005:9092,csf-dev-006:9092,csf-dev-007:9092,csf-dev-008:9092
+bootstrap.servers={% for kafka_server_ip in groups['kafka-servers'] %}{{kafka_server_ip}}:{{ hostvars[kafka_server_ip]['kafka_port']}}{% if not loop.last %},{% endif %}{% endfor %}
+
+########################################################################################################
+## log4j.properties
+########################################################################################################
+
+log4j.rollingFileAppender.filelocation={{ cen_node0_bulk_log4j_rollingFileAppender_filelocation }}
+log4j.rollingFileAppender.fileNamePrefix={{ cen_node0_bulk_log4j_rollingFileAppender_fileNamePrefix }}

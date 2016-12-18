@@ -1,0 +1,6 @@
+---
+#
+# aasf-infra-auto/roles/central-deploy/tasks/csfms.yml
+#
+
+# no start scripts here yet for csfms component

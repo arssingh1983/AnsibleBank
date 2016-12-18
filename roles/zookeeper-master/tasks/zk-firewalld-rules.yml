@@ -1,0 +1,16 @@
+---
+#
+# mesos-cluster/roles/zookeeper-master/tasks/zk-firewalld-rules.yml
+#
+# source =
+
+- name: setup Zookeeper firewalld rules
+  firewalld:
+    port={{ item }}/tcp
+    permanent=yes
+    state=enabled
+    immediate=yes
+  with_items:
+    - "{{ zk_client_port }}"
+    - "{{ zk_master_port }}"
+    - "{{ zk_election_port }}"

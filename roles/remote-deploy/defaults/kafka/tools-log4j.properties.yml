@@ -1,0 +1,5 @@
+rem_tools_log4j_log4j_rootLogger: "WARN, stderr"
+rem_tools_log4j_log4j_appender_stderr: "org.apache.log4j.ConsoleAppender"
+rem_tools_log4j_log4j_appender_stderr_layout: "org.apache.log4j.PatternLayout"
+rem_tools_log4j_log4j_appender_stderr_layout_ConversionPattern: "[%d] %p %m (%c)%n"
+rem_tools_log4j_log4j_appender_stderr_Target: "System.err"

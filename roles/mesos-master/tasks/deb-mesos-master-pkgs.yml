@@ -1,0 +1,12 @@
+---
+# tasks file for mesos-master
+#
+# mesos-cluster/roles/mesos-master/tasks/deb-mesos-master-pkgs.yml
+#
+
+ - name: install Mesos-Master packages for Debian
+   apt: pkg={{ item }} state=present
+   with_items:
+     - mesosphere
+     - mesos
+

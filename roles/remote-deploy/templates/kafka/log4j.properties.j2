@@ -1,0 +1,87 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+log4j.rootLogger={{ rem_log4j_log4j_rootLogger }}
+
+log4j.appender.stdout={{ rem_log4j_log4j_appender_stdout }}
+log4j.appender.stdout.layout={{ rem_log4j_log4j_appender_stdout_layout }}
+log4j.appender.stdout.layout.ConversionPattern={{ rem_log4j_log4j_appender_stdout_layout_ConversionPattern }}
+
+log4j.appender.kafkaAppender={{ rem_log4j_log4j_appender_kafkaAppender }}
+log4j.appender.kafkaAppender.DatePattern={{ rem_log4j_log4j_appender_kafkaAppender_DatePattern }}
+log4j.appender.kafkaAppender.File={{ rem_log4j_log4j_appender_kafkaAppender_File }}
+log4j.appender.kafkaAppender.layout={{ rem_log4j_log4j_appender_kafkaAppender_layout }}
+log4j.appender.kafkaAppender.layout.ConversionPattern={{ rem_log4j_log4j_appender_kafkaAppender_layout_ConversionPattern }}
+
+log4j.appender.stateChangeAppender={{ rem_log4j_log4j_appender_stateChangeAppender }}
+log4j.appender.stateChangeAppender.DatePattern={{ rem_log4j_log4j_appender_stateChangeAppender_DatePattern }}
+log4j.appender.stateChangeAppender.File={{ rem_log4j_log4j_appender_stateChangeAppender_File }}
+log4j.appender.stateChangeAppender.layout={{ rem_log4j_log4j_appender_stateChangeAppender_layout }}
+log4j.appender.stateChangeAppender.layout.ConversionPattern={{ rem_log4j_log4j_appender_stateChangeAppender_layout_ConversionPattern }}
+
+log4j.appender.requestAppender={{ rem_log4j_log4j_appender_requestAppender }}
+log4j.appender.requestAppender.DatePattern={{ rem_log4j_log4j_appender_requestAppender_DatePattern }}
+log4j.appender.requestAppender.File={{ rem_log4j_log4j_appender_requestAppender_File }}
+log4j.appender.requestAppender.layout={{ rem_log4j_log4j_appender_requestAppender_layout }}
+log4j.appender.requestAppender.layout.ConversionPattern={{ rem_log4j_log4j_appender_requestAppender_layout_ConversionPattern }}
+
+log4j.appender.cleanerAppender={{ rem_log4j_log4j_appender_cleanerAppender }}
+log4j.appender.cleanerAppender.DatePattern={{ rem_log4j_log4j_appender_cleanerAppender_DatePattern }}
+log4j.appender.cleanerAppender.File={{ rem_log4j_log4j_appender_cleanerAppender_File }}
+log4j.appender.cleanerAppender.layout={{ rem_log4j_log4j_appender_cleanerAppender_layout }}
+log4j.appender.cleanerAppender.layout.ConversionPattern={{ rem_log4j_log4j_appender_cleanerAppender_layout_ConversionPattern }}
+
+log4j.appender.controllerAppender={{ rem_log4j_log4j_appender_controllerAppender }}
+log4j.appender.controllerAppender.DatePattern={{ rem_log4j_log4j_appender_controllerAppender_DatePattern }}
+log4j.appender.controllerAppender.File={{ rem_log4j_log4j_appender_controllerAppender_File }}
+log4j.appender.controllerAppender.layout={{ rem_log4j_log4j_appender_controllerAppender_layout }}
+log4j.appender.controllerAppender.layout.ConversionPattern={{ rem_log4j_log4j_appender_controllerAppender_layout_ConversionPattern }}
+
+log4j.appender.authorizerAppender={{ rem_log4j_log4j_appender_authorizerAppender }}
+log4j.appender.authorizerAppender.DatePattern={{ rem_log4j_log4j_appender_authorizerAppender_DatePattern }}
+log4j.appender.authorizerAppender.File={{ rem_log4j_log4j_appender_authorizerAppender_File }}
+log4j.appender.authorizerAppender.layout={{ rem_log4j_log4j_appender_authorizerAppender_layout }}
+log4j.appender.authorizerAppender.layout.ConversionPattern={{ rem_log4j_log4j_appender_authorizerAppender_layout_ConversionPattern }}
+
+# Turn on all our debugging info
+#log4j.logger.kafka.producer.async.DefaultEventHandler=DEBUG, kafkaAppender
+#log4j.logger.kafka.client.ClientUtils=DEBUG, kafkaAppender
+#log4j.logger.kafka.perf=DEBUG, kafkaAppender
+#log4j.logger.kafka.perf.ProducerPerformance$ProducerThread=DEBUG, kafkaAppender
+#log4j.logger.org.I0Itec.zkclient.ZkClient=DEBUG
+log4j.logger.kafka={{ rem_log4j_log4j_logger_kafka }}
+
+log4j.logger.kafka.network.RequestChannel$={{ rem_log4j_log4j_logger_kafka_network_RequestChannel$ }}
+log4j.additivity.kafka.network.RequestChannel$={{ rem_log4j_log4j_additivity_kafka_network_RequestChannel$ }}
+
+#log4j.logger.kafka.network.Processor=TRACE, requestAppender
+#log4j.logger.kafka.server.KafkaApis=TRACE, requestAppender
+#log4j.additivity.kafka.server.KafkaApis=false
+log4j.logger.kafka.request.logger={{ rem_log4j_log4j_logger_kafka_request_logger }}
+log4j.additivity.kafka.request.logger={{ rem_log4j_log4j_additivity_kafka_request_logger }}
+
+log4j.logger.kafka.controller={{ rem_log4j_log4j_logger_kafka_controller }}
+log4j.additivity.kafka.controller={{ rem_log4j_log4j_additivity_kafka_controller }}
+
+log4j.logger.kafka.log.LogCleaner={{ rem_log4j_log4j_logger_kafka_log_LogCleaner }}
+log4j.additivity.kafka.log.LogCleaner={{ rem_log4j_log4j_additivity_kafka_log_LogCleaner }}
+
+log4j.logger.state.change.logger={{ rem_log4j_log4j_logger_state_change_logger }}
+log4j.additivity.state.change.logger={{ rem_log4j_log4j_additivity_state_change_logger }}
+
+#Change this to debug to get the actual audit log for authorizer.
+log4j.logger.kafka.authorizer.logger={{ rem_log4j_log4j_logger_kafka_authorizer_logger }}
+log4j.additivity.kafka.authorizer.logger={{ rem_log4j_log4j_additivity_kafka_authorizer_logger }}
+

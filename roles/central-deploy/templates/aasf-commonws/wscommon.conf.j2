@@ -1,0 +1,125 @@
+# -----------------------------------------------------
+# Postgres Database Configurations for UI feed Database
+# -----------------------------------------------------
+JDBC_DRIVER={{ cen_wscommon_JDBC_DRIVER }}
+JDBC_USERNAME={{ cen_wscommon_JDBC_USERNAME }}
+JDBC_PASSWORD={{ cen_wscommon_JDBC_PASSWORD }}
+JDBC_URL={{ cen_wscommon_JDBC_URL }}
+JDBC_POOL_SIZE={{ cen_wscommon_JDBC_POOL_SIZE }}
+
+# -----------------------------------------------------
+# CORS origin resource
+# -----------------------------------------------------
+
+access.control.allow.origin={{ cen_wscommon_access_control_allow_origin }}
+
+# -----------------------------------------------------
+# Keystore to enable HTTPS
+# -----------------------------------------------------
+server.jks.file={{ cen_wscommon_server_jks_file }}
+server.jks.pass={{ cen_wscommon_server_jks_pass }}
+jetty.https.port={{ cen_wscommon_jetty_https_port }}
+
+# -----------------------------------------------------
+# File Upload Locations
+# -----------------------------------------------------
+jar.upload.location={{ cen_wscommon_jar_upload_location }}
+certificate.upload.location={{ cen_wscommon_certificate_upload_location }}
+
+# -----------------------------------------------------
+# OpenAM configuration
+# -----------------------------------------------------
+openam.restapi.url.login={{ cen_wscommon_openam_restapi_url_login }}
+openam.restapi.url.logout={{ cen_wscommon_openam_restapi_url_logout }}
+openam.restapi.url.validate={{ cen_wscommon_openam_restapi_url_validate }}
+ignore.ssl.errors={{ cen_wscommon_ignore_ssl_errors }}
+
+# -----------------------------------------------------
+# LDAP Configurations
+# -----------------------------------------------------
+ldap.initial.context.factory={{ cen_wscommon_ldap_initial_context_factory }}
+ldap.security.authentication={{ cen_wscommon_ldap_security_authentication }}
+ldap.security.principal={{ cen_wscommon_ldap_security_principal }}
+ldap.security.credentials={{ cen_wscommon_ldap_security_credentials }}
+ldap.provider.url={{ cen_wscommon_ldap_provider_url }}
+ldap.search.base={{ cen_wscommon_ldap_search_base }}
+ldap.mapping.cn={{ cen_wscommon_ldap_mapping_cn }}
+ldap.mapping.mail={{ cen_wscommon_ldap_mapping_mail }}
+ldap.mapping.name={{ cen_wscommon_ldap_mapping_name }}
+ldap.mapping.title={{ cen_wscommon_ldap_mapping_title }}
+ldap.mapping.mobile={{ cen_wscommon_ldap_mapping_mobile }}
+
+# -----------------------------------------------------
+# Elastic Search Configurations
+# -----------------------------------------------------
+elasticsearch.endpoint.url={{ cen_wscommon_elasticsearch_endpoint_url }}
+
+#############################################################################
+#  Micro-service API
+#############################################################################
+#---------------------------------------------------
+# Kafka
+#---------------------------------------------------
+kafka.required={{ cen_wscommon_kafka_required }}
+kafka.poll.timeout={{ cen_wscommon_kafka_poll_timeout }}
+server.kafka.group.id={{ cen_wscommon_server_kafka_group_id }}
+kafka.consumer.group.id={{ cen_wscommon_kafka_consumer_group_id }}
+#bootstrap.servers={{ cen_wscommon_bootstrap_servers }}
+bootstrap.servers={% for kafka_server_ip in groups['kafka-servers'] %}{{kafka_server_ip}}:{{ hostvars[kafka_server_ip]['kafka_port']}}{% if not loop.last %},{% endif %}{% endfor %}
+
+# ------------------------------------------------------
+# On-Demand API CWS response topic, unique per CWS instance
+# ------------------------------------------------------
+deployed.for.on.demand.api={{ cen_wscommon_deployed_for_on_demand_api }}
+cws.ms.on.demand.resp.topic={{ cen_wscommon_cws_ms_on_demand_resp_topic }}
+
+#---------------------------------------------------
+#  Streaming API related settings
+#----------------------------------------------------
+
+# External server certificates keystore infomation
+deployed.for.streaming.api={{ cen_wscommon_deployed_for_streaming_api }}
+external.server.keystore.path={{ cen_wscommon_external_server_keystore_path }}
+external.server.keystore.pwd={{ cen_wscommon_external_server_keystore_pwd }}
+http.max.connection.pool.size={{ cen_wscommon_http_max_connection_pool_size }}
+http.max.connection.per.route={{ cen_wscommon_http_max_connection_per_route }}
+
+#keep alive timeout in seconds
+http.connection.keep.alive={{ cen_wscommon_http_connection_keep_alive }}
+http.connection.close.timeout={{ cen_wscommon_http_connection_close_timeout }}
+http.idle.connection.check.interval={{ cen_wscommon_http_idle_connection_check_interval }}
+http_connect_max_retry={{ cen_wscommon_http_connect_max_retry }}
+
+#HTTP POST jobs
+job.thread.pool.core.size={{ cen_wscommon_job_thread_pool_core_size }}
+job.thread.pool.max.size={{ cen_wscommon_job_thread_pool_max_size }}
+job.keep.alive={{ cen_wscommon_job_keep_alive }}
+job.post.timout.on={{ cen_wscommon_job_post_timout_on }}
+job.post.timeout={{ cen_wscommon_job_post_timeout }}
+
+#############################################################################
+# SSL Manager Configurations
+#############################################################################
+# -----------------------------------------------------
+# SSL Manager AES encryption/decryption parameters
+# -----------------------------------------------------
+sslmanager.db.encryptionKey={{ cen_wscommon_sslmanager_db_encryptionKey }}
+sslmanager.db.IV={{ cen_wscommon_sslmanager_db_IV }}
+sslmanager.crt.storage.crtpath={{ cen_wscommon_sslmanager_crt_storage_crtpath }}
+sslmanager.crt.storage.keystoretmppath={{ cen_wscommon_sslmanager_crt_storage_keystoretmppath }}
+sslmanager.crt.storage.dstJKSName={{ cen_wscommon_sslmanager_crt_storage_dstJKSName }}
+sslmanager.crtupgrade.timeout.seconds={{ cen_wscommon_sslmanager_crtupgrade_timeout_seconds }}
+sslmanager.crtupgrade.thread.number={{ cen_wscommon_sslmanager_crtupgrade_thread_number }}
+sslmanager.jks.backup.extension={{ cen_wscommon_sslmanager_jks_backup_extension }}
+sslmanager.instance.on={{ cen_wscommon_sslmanager_instance_on }}
+sslmanager.daemon.thread.number={{ cen_wscommon_sslmanager_daemon_thread_number }}
+sslmanager.maintenance.frequency={{ cen_wscommon_sslmanager_maintenance_frequency }}
+sslmanager.maintenance.expiredDay={{ cen_wscommon_sslmanager_maintenance_expiredDay }}
+
+# ----------------------------------------------------------
+# Postgres Database Configurations for SSL Manager Database
+# ----------------------------------------------------------
+sslmanager.rdbms.url={{ cen_wscommon_sslmanager_rdbms_url }}
+sslmanager.rdbms.username={{ cen_wscommon_sslmanager_rdbms_username }}
+sslmanager.rdbms.password={{ cen_wscommon_sslmanager_rdbms_password }}
+sslmanager.rdbms.driver={{ cen_wscommon_sslmanager_rdbms_driver }}

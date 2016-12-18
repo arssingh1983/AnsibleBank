@@ -1,0 +1,25 @@
+---
+#
+# mesos-cluster/roles/zookeeper-master/tasks/zk-init-svcs.yml
+#
+
+- name: ensure Zookeeper service is stopped
+  service:
+    name=zookeeper-server
+    state=stopped
+    
+- name: initialize zookeeper-server service
+  shell: /sbin/service zookeeper-server init --force
+
+- name: set zookeeper server ID in /var/lib/zookeeper
+  template:
+    src=myid.j2
+    dest=/var/lib/zookeeper/myid
+    mode=0644
+    backup=yes
+
+- name: enable and start zookeeper-server services
+  service:
+    name=zookeeper-server
+    state=restarted
+    enabled=yes

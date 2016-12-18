@@ -1,0 +1,13 @@
+--
+-- csfdb-grant.sql.j2
+--
+-- This file was created by the posgresql role of the
+-- Ansible aasf-infra-auto playbook.  This file is sourced
+-- from the template file:
+-- aasf-infra-auto/roles/postgresql/templates/csfdb-grant.sql.j2
+
+CREATE DATABASE {{ aasf_db_name }};
+
+CREATE USER {{ aasf_db_user }} WITH PASSWORD '{{ aasf_db_pass }}';
+
+GRANT ALL PRIVILEGES ON DATABASE {{ aasf_db_name }} to {{ aasf_db_user }};

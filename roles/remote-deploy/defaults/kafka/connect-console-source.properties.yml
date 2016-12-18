@@ -1,0 +1,4 @@
+rem_connect_console_source_name: "local-console-source"
+rem_connect_console_source_connector_class: "org.apache.kafka.connect.file.FileStreamSourceConnector"
+rem_connect_console_source_tasks_max: "1"
+rem_connect_console_source_topic: "connect-test"

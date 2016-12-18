@@ -1,0 +1,15 @@
+---
+# defaults file for zookeeper-master
+#
+# mesos-cluster/roles/zookeeper-master/defaults/main.yml
+
+# depends on these variables/ports (set as defaults):
+# zk_client_port, zk_master_port, zk_election_port
+#
+# also depends on the variable zk_id (NOT set as default, must be set in hosts)
+
+zk_data_dir: /var/lib/zookeeper/
+
+zk_client_port: 2181
+zk_master_port: 2888
+zk_election_port: 3888

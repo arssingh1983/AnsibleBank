@@ -1,0 +1,6 @@
+---
+# defaults file for mesos-master
+
+mesos_master_port: 5050
+
+

@@ -1,0 +1,21 @@
+---
+#
+# aasf-infra-auto/roles/postgresql/defaults/main.yml
+#
+# defaults file for postgresql
+
+postgres_user: postgres
+postgres_group: postgres
+postgres_hbac_cfg: /var/lib/pgsql/data/pg_hba.conf
+postgres_svc_name: postgresql
+postgres_db_port: 5432
+
+aasf_schema_location: http://engci-maven.cisco.com/artifactory/csi-group/csf-deployment/DB_2/schema/csf_database_latest_schema.sql
+aasf_data_location: http://engci-maven.cisco.com/artifactory/csi-group/csf-deployment/DB_2/schema/csf_database_latest_data.sql
+aasf_alter_scripts: yes
+aasf_keep_scripts: no
+aasf_create_script: /tmp/csfdb-grant.sql
+
+aasf_db_name: csf_database
+aasf_db_user: csf_postgres
+aasf_db_pass: csf_postgres

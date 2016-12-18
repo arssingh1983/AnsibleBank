@@ -1,0 +1,51 @@
+---
+#
+# aasf-infra-auto/roles/central-deploy/tasks/aasf-connector.yml
+#
+
+- name: create logging stub files for Node0 aasf-connector subcomponents
+  file:
+    path="/var/log/{{ component }}/{{ subcomponent }}.log"
+    owner={{ component }}
+    group={{ cen_user_grp }}
+    mode=0664
+    state=touch
+  with_items:
+    - bulk
+    - bulk-err
+    - control
+    - control-err
+    - data
+    - data-err
+  loop_control:
+    loop_var: subcomponent
+
+- name: put sysconfig and service files into place for Node0 aasf-connector subcomponents
+  template:
+    src="{{ component }}-{{ subcomponent.name }}.{{ subcomponent.type }}.j2"
+    dest="{{ subcomponent.target }}/{{ component }}-{{ subcomponent.name }}.{{ subcomponent.type }}"
+    owner=root
+    group=root
+    mode=0644
+    backup=no
+  with_items:
+    - { name: 'bulk', type: 'sysconfig', target: '/etc/sysconfig' }
+    - { name: 'bulk', type: 'service', target: '/lib/systemd/system' }
+    - { name: 'control', type: 'sysconfig', target: '/etc/sysconfig' }
+    - { name: 'control', type: 'service', target: '/lib/systemd/system' }
+    - { name: 'data', type: 'sysconfig', target: '/etc/sysconfig' }
+    - { name: 'data', type: 'service', target: '/lib/systemd/system' }
+  loop_control:
+    loop_var: subcomponent
+
+- name: enable Node0 aasf-connector subcomponent services
+  service:
+    enabled=yes
+    state=restarted
+    name="{{ component }}-{{ subcomponent }}"
+  with_items:
+    - bulk
+    - control
+    - data
+  loop_control:
+    loop_var: subcomponent

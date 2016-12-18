@@ -1,0 +1,14 @@
+---
+# defaults file for kafka
+
+kafka_url: http://www-us.apache.org/dist/kafka/0.10.0.0/kafka_2.11-0.10.0.0.tgz
+kafka_ver: 0.10.0.0
+kafka_log: /var/log/kafka
+kafka_etc: /etc/kafka
+kafka_port: 9092
+kafka_home: /opt/kafka
+kafka_user: kafka
+kafka_group: kafka
+kafka_ver_dir: kafka_2.11-0.10.0.0
+kafka_data_dir: /var/lib/kafka
+kafka_get_url_timeout: 1000

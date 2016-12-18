@@ -1,0 +1,13 @@
+---
+#
+# source = mesos-cluster/roles/marathon-master/tasks/el-marathon-pkgs.yml
+#
+
+ - name: Install Marathon packages for EL
+   yum:
+     name={{ item }}
+     state=present
+   with_items:
+     - marathon
+   sudo: yes
+

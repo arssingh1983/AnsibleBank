@@ -1,0 +1,3 @@
+rem_consumer_zookeeper_connect: "127.0.0.1:2181"
+rem_consumer_zookeeper_connection_timeout_ms: "6000"
+rem_consumer_group_id: "test-consumer-group"

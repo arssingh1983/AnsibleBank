@@ -1,0 +1,15 @@
+---
+#
+# aasf-infra-auto/roles/postgresql/tasks/el-postgresql-pkgs.yml
+#
+# install packages for RHEL-based distros
+
+- name: install PostgreSQL packages (EL7)
+  yum:
+    name={{ item }}
+    state=present
+  with_items:
+    - postgresql-server
+    - postgresql-contrib
+  sudo: yes
+  when: ansible_distribution_major_version >= "7"

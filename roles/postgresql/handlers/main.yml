@@ -1,0 +1,23 @@
+---
+#
+# aasf-infra-auto/roles/postgresql/handlers/main.yml
+#
+
+- name: remove aasf_create_script
+  file:
+    path={{ aasf_create_script }}
+    state=absent
+  become: yes
+  when: not aasf_keep_scripts
+
+- name: remove aasf_schema scripts
+  file:
+    path="/tmp/{{ item | basename }}"
+    state=absent
+  become: yes
+  with_items:
+    - "{{ aasf_schema_location }}"
+    - "{{ aasf_data_location }}"
+    - "{{ aasf_schema_location + '.log' }}"
+    - "{{ aasf_data_location + '.log' }}"
+  when: not aasf_keep_scripts

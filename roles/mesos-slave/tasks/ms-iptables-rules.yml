@@ -1,0 +1,13 @@
+---
+#
+# source = mesos-cluster/roles/mesos-slave/tasks/ms-iptables-rules.yml
+#
+
+ - name: setup Mesos-Slave iptables rules
+   shell:
+     iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport {{ item }} -j ACCEPT
+   with_items:
+     - "{{ mesos_slave_port }}"
+
+ - name: persist Mesos-Slave iptables rules
+   shell: /sbin/service iptables save

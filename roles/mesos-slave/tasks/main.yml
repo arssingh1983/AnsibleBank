@@ -1,0 +1,57 @@
+---
+#
+# mesos-cluster/role/mesos-slave/tasks/main.yml
+#
+
+ - name: install Mesos packages
+   include: el-mesos-slave-pkgs.yml
+   when: ansible_os_family == "RedHat"
+
+ - name: install Mesos packages
+   include: deb-mesos-slave-pkgs.yml
+   when: ansible_os_family == "Debian"
+
+ - name: set Zookeeper servers on Mesos Slaves
+   template:
+     backup=yes
+     dest=/etc/mesos-slave/{{ item }}
+     mode=0644
+     src={{ item }}.j2
+   with_items:
+     - master
+     - port
+     - containerizers
+
+ - name: remove extraneous Mesos-Slave definition for master
+   lineinfile:
+     dest=/etc/default/mesos-slave
+     regexp='^MASTER='
+     state=absent
+
+ - name: test for firewalld
+   command: /usr/bin/which firewalld
+   register: result
+   ignore_errors: True
+
+ - name: add Mesos-Slave firewalld rules
+   include: ms-firewalld-rules.yml
+   when: result.rc == 0
+
+ - name: add Mesos-Slave iptables rules
+   include: ms-iptables-rules.yml
+   when: result.rc != 0
+
+ - name: disable Mesos Master service
+   service:
+     name=mesos-master
+     enabled=no
+     state=stopped
+
+ - name: enable Mesos Slave service
+   service:
+     name={{ item }}
+     enabled=yes
+     state=restarted
+   with_items:
+     - mesos-slave
+     - docker

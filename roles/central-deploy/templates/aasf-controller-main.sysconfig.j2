@@ -1,0 +1,13 @@
+#
+# /etc/sysconfig/{{ component }}-{{ subcomponent.name }}
+#
+
+JAVA_USER="{{ component }}"
+JAVA_STDOUT="/var/log/{{ component }}/{{ subcomponent.name }}.log"
+JAVA_STDERR="/var/log/{{ component }}/{{ subcomponent.name }}-err.log"
+JAVA_BIN="/etc/alternatives/java"
+JAVA_HOME="/etc/alternatives/jre"
+JAVA_APPDIR="{{ cen_home_dir }}/{{ component }}"
+ARG1="-classpath {{ cen_home_dir }}/{{ component }}/build/libs/*:{{ cen_home_dir }}/{{ component }}/conf"
+ARG2=""
+ARG3="com.cisco.eng.csf.controller.Controller"

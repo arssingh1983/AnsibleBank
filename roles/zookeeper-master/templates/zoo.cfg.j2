@@ -1,0 +1,20 @@
+# /etc/zookeeper/conf/zoo.cfg
+#
+# setup by ansible
+
+# zk_client_port, zk_master_port, zk_election_port, zk_data_dir
+
+# default values
+maxClientCnxns=50
+tickTime=2000
+initLimit=10
+syncLimit=5
+
+# values passed in from Ansible:
+# mesos-cluster/roles/zookeeper-master/defaults/main.yml
+dataDir={{ zk_data_dir }}
+clientPort={{ zk_client_port }}
+
+{% for host in groups['zookeeper-servers'] %}
+server.{{ hostvars[host].zk_id }}={{ host }}:{{ zk_master_port }}:{{ zk_election_port }}
+{% endfor %}

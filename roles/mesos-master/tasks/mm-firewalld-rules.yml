@@ -1,0 +1,14 @@
+---
+#
+# source = mesos-cluster/roles/mesos-master/tasks/mm-firewalld-rules.yml
+#
+
+ - name: setup Mesos-Master firewalld rules
+   firewalld:
+     port={{ item }}/tcp
+     permanent=yes
+     state=enabled
+     immediate=yes
+   with_items:
+     - "{{ mesos_master_port }}"
+

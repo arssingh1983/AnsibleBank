@@ -1,0 +1,19 @@
+---
+# tasks file for common
+#
+# aasf-infra-auto/roles/common/main.yml
+#
+# using instructions from:
+# https://mesosphere.com/blog/2014/07/17/mesosphere-package-repositories/
+
+- name: install Mesosphere repository (EL)
+  include: el-mesosphere-repo.yml
+  when: ansible_os_family == "RedHat"
+
+- name: install extra packages (EL)
+  include: el-extra-pkgs.yml
+  when: ansible_os_family == "RedHat"
+  
+- name: install Mesosphere repository (Debian)
+  include: deb-mesosphere-repo.yml
+  when: ansible_os_family == "Debian"

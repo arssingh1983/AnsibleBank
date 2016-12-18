@@ -1,0 +1,5 @@
+---
+# defaults file for marathon-master
+
+marathon_config_dir: /etc/marathon/conf
+

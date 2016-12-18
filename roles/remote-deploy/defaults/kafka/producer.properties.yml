@@ -1,0 +1,2 @@
+rem_producer_bootstrap_servers: "localhost:9092"
+rem_producer_compression_type: "none"

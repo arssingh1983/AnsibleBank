@@ -1,0 +1,17 @@
+rem_controllerws_csf_controller_control_topic_in: "control-topic-in"
+rem_controllerws_csf_controller_control_topic_out: "control-topic-out"
+rem_controllerws_csf_controlproxy_control_topic_in: "control-topic-in"
+rem_controllerws_csf_controlproxy_control_topic_out: "control-topic-out"
+rem_controllerws_rdbms_url: "jdbc:postgresql://csf-dev-010:5432/csf_database_stage"
+rem_controllerws_rdbms_username: "csfuser"
+rem_controllerws_rdbms_password: ""
+rem_controllerws_rdbms_driver: "org.postgresql.Driver"
+rem_controllerws_bootstrap_servers: "localhost:9092"
+rem_controllerws_zookeeper_connect: "localhost:2181"
+rem_controllerws_acks: "all"
+rem_controllerws_retries: "0"
+rem_controllerws_batch_size: "16384"
+rem_controllerws_linger_ms: "1"
+rem_controllerws_buffer_memory: "33554432"
+rem_controllerws_key_serializer: "org.apache.kafka.common.serialization.ByteArraySerializer"
+rem_controllerws_value_serializer: "org.apache.kafka.common.serialization.ByteArraySerializer"

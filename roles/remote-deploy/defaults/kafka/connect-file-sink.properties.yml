@@ -1,0 +1,5 @@
+rem_connect_file_sink_name: "local-file-sink"
+rem_connect_file_sink_connector_class: "FileStreamSink"
+rem_connect_file_sink_tasks_max: "1"
+rem_connect_file_sink_file: "test.sink.txt"
+rem_connect_file_sink_topics: "connect-test"

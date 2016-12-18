@@ -1,0 +1,14 @@
+---
+#
+# source = mesos-cluster/roles/marathon-master/tasks/mar-firewalld-rules.yml
+#
+
+ - name: setup Marathon firewalld rules
+   firewalld:
+     port={{ item }}/tcp
+     permanent=yes
+     state=enabled
+     immediate=yes
+   with_items:
+     - 8080
+

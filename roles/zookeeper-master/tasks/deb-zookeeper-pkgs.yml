@@ -1,0 +1,13 @@
+---
+# tasks file for zookeeper-master
+#
+# source = https://gitscm.cisco.com/projects/STIC/repos/ansible-roles-mesos-cluster/browse/roles/zookeeper-master/tasks/deb-zookeeper-pkgs.yml?raw
+#
+
+- name: Install Zookeeper packages (Debian)
+  apt: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - zookeeper
+    - zookeeper-bin
+    - zookeeperd
+  sudo: yes

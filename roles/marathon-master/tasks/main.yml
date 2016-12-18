@@ -1,0 +1,51 @@
+---
+#
+# mesos-cluster/roles/marathon-master/tasks/main.yml
+#
+
+ - name: install Marathon packages (EL)
+   include: el-marathon-pkgs.yml
+   when: ansible_os_family == "RedHat"
+
+ - name: install Marathon packages (Debian)
+   include: deb-marathon-pkgs.yml
+   when: ansible_os_family == "Debian"
+
+ - name: create Marathon config directory
+   file:
+     path={{ marathon_config_dir }}
+     state=directory
+     mode=0755
+     owner=root
+     recurse=yes
+
+ - name: setup Marathon config files
+   template:
+     backup=no
+     dest={{ marathon_config_dir }}/{{ item }}
+     mode=0644
+     src={{ item }}.j2
+   with_items:
+     - hostname
+     - master
+     - zk
+
+ - name: test for firewalld
+   command: /usr/bin/which firewalld
+   register: result
+   ignore_errors: True
+
+ - name: add firewalld rules
+   include: mar-firewalld-rules.yml
+   when: result.rc == 0
+
+ - name: add iptables rules
+   include: mar-iptables-rules.yml
+   when: result.rc != 0
+
+ - name: enable Marathon services
+   service:
+     name=marathon
+     state=restarted
+     enabled=yes
+     

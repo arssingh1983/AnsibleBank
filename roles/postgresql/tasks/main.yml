@@ -1,0 +1,81 @@
+---
+#
+# aasf-infra-auto/roles/postgresql/tasks/main.yml
+#
+
+- name: install PostgreSQL packages (EL)
+  include: el-postgresql-pkgs.yml
+  when: ansible_os_family == "RedHat"
+
+# add support for Debian-based distros later, maybe.
+#- name: install PostgreSQL packages (Debian)
+#  include: deb-postgresql-pkgs.yml
+#  when: ansible_os_family == "Debian"
+
+- name: create a new PostgreSQL cluster
+  shell: /usr/bin/postgresql-setup initdb
+  become: yes
+  become_user: root
+
+- name: setup HBAC for PostgreSQL
+  template:
+    backup=yes
+    dest={{ postgres_hbac_cfg }}
+    mode=0600
+    owner={{ postgres_user }}
+    group={{ postgres_group }}
+    src=pg_hba.conf.j2
+
+- name: enable PostgreSQL service
+  service:
+    name={{ postgres_svc_name }}
+    enabled=yes
+    state=restarted
+
+- name: create SQL script for DB/user creation
+  template:
+    backup=no
+    mode=0600
+    dest={{ aasf_create_script }}
+    owner={{ postgres_user }}
+    group={{ postgres_group }}
+    src=csfdb-grant.sql.j2
+  notify:
+    - remove aasf_create_script
+
+- name: execute DB/user creation script
+  command: /usr/bin/psql --file={{ aasf_create_script }}
+  become: yes
+  become_user: "{{ postgres_user }}"
+  become_method: sudo
+
+#
+# FIGURE OUT HOW TO DISABLE PUBLIC SCHEMA AND PRIV GRANTS
+#
+
+- name: create and populate AASF schemas in PostgreSQL
+  include: aasf-table-create.yml
+  with_items:
+    - "{{ aasf_schema_location }}"
+    - "{{ aasf_data_location }}"
+  become: yes
+  become_user: "{{ postgres_user }}"
+  become_method: sudo
+  #notify:
+  #  - remove aasf_schema scripts
+
+# add firewall rules for PostgreSQL
+- block:
+  - name: test for firewalld
+    command: /usr/bin/which firewalld
+    register: result
+    ignore_errors: True
+  - name: run firewalld rules script for PostgreSQL
+    include: psql-firewalld-rules.yml
+    when: result.rc == 0
+  - name: run iptables rules script for PostgreSQL
+    include: psql-iptables-rules.yml
+    when: result.rc != 0
+  become: yes
+  become_user: root
+  become_method: sudo

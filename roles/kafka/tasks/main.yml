@@ -1,0 +1,129 @@
+---
+# tasks file for kafka
+#
+# ansible/mesos-cluster/roles/kafka/tasks/main.yml
+#
+# source = https://gitscm.cisco.com/projects/STIC/repos/ansible-roles-mesos-cluster/browse/roles/kafka/tasks/main.yml?raw
+#
+
+ - name: install prereq packages (EL)
+   include: el-kafka-pkgs.yml
+   when: ansible_os_family == "RedHat"
+
+ - name: install prereq packages (Debian)
+   include: deb-kafka-pkgs.yml
+   when: ansible_os_family == "Debian"
+
+ - name: create Kafka group
+   group:
+     name={{ kafka_group }}
+     state=present
+
+ - name: create Kafka user
+   user:
+     name={{ kafka_user }}
+     group={{ kafka_group }}
+     state=present
+     home={{ kafka_home }}
+     createhome=yes
+     comment="service user for Kafka"
+
+ - name: download Kafka tarball
+   get_url:
+     url={{ kafka_url }}
+     dest={{ kafka_home }}/{{ kafka_url | basename }}
+     mode=0644
+     backup=yes
+     timeout={{ kafka_get_url_timeout }}
+
+ - name: create directory for Kafka version
+   file:
+     path={{ kafka_home }}/{{ kafka_ver }}
+     state=directory
+     owner={{ kafka_user }}
+     mode=0755
+     recurse=yes
+
+ - name: unpack Kafka tarball
+   unarchive:
+     src={{ kafka_home }}/{{ kafka_url | basename }}
+     dest={{ kafka_home }}
+     owner={{ kafka_user }}
+     group={{ kafka_group }}
+     mode=0755
+     copy=no
+
+ - name: create current link for Kafka home
+   file:
+     src={{ kafka_home }}/{{ kafka_ver_dir }}
+     dest={{ kafka_home }}/current
+     state=link
+     owner={{ kafka_user }}
+     group={{ kafka_group }}
+     follow=yes
+
+ - name: create Kafka config directory
+   file:
+     path={{ kafka_etc }}
+     state=directory
+     owner=root
+     mode=0755
+
+ - name: create Kafka config files
+   template:
+     backup=yes
+     dest={{ kafka_etc }}/{{ item }}
+     mode=0644
+     src={{ item }}.j2
+   with_items:
+     - log4j.properties
+     - server.properties
+
+ - name: create Kafka logrotate scripts
+   template:
+     backup=no
+     dest=/etc/logrotate.d/kafka
+     mode=0644
+     src=logrotate.j2
+
+ - name: create Kafka sysconfig environmental file
+   template:
+     backup=yes
+     dest=/etc/sysconfig/kafka
+     mode=0644
+     src=kafka.sysconfig.j2
+
+ - name: create Kafka systemd/init files
+   template:
+     backup=yes
+     dest=/etc/rc.d/init.d/kafka
+     mode=0755
+     src=kafka.init.j2
+
+ - name: refresh systemd
+   command: /usr/bin/systemctl daemon-reload
+
+ - name: create Kafka data directory
+   file:
+     path={{ kafka_data_dir }}
+     owner={{ kafka_user }}
+     group={{ kafka_group }}
+     mode=0755
+     state=directory
+
+ - name: enable Kakfa service
+   service:
+     name=kafka
+     enabled=yes
+     state=restarted
+
+ - name: setup Kafka firewall rules (EL7+)
+   include: kafka-firewalld-rules.yml
+   when: (ansible_os_family == "RedHat") and (ansible_distribution_major_version >= "7")
+
+ - name: setup Kafka firewall rules (EL6-)
+   include: kafka-iptables-rules.yml
+   when: (ansible_os_family == "RedHat") and (ansible_distribution_major_version <= "6")
+
+# Debian = default-jre
+# EL 6+7 = java-1.7.0-openjdk

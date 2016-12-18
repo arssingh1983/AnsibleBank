@@ -1,0 +1,93 @@
+# -----------------------------------------------------------------------------------
+# CSF Controller Configurations
+# Number values should not be followed by any blank space.
+# -----------------------------------------------------------------------------------
+
+# -----------------------------------------------------
+# Controller REST
+# -----------------------------------------------------
+csf.controller.ws.port={{ cen_csf_controller_csf_controller_ws_port }}
+
+# -----------------------------------------------------
+# Controller
+# -----------------------------------------------------
+csf.controller.control-topic-in={{ cen_csf_controller_csf_controller_control_topic_in }}
+csf.controller.control-topic-out={{ cen_csf_controller_csf_controller_control_topic_out }}
+
+# -----------------------------------------------------
+# Control Proxy
+# -----------------------------------------------------
+csf.controlproxy.control-topic-in={{ cen_csf_controller_csf_controlproxy_control_topic_in }}
+csf.controlproxy.control-topic-out={{ cen_csf_controller_csf_controlproxy_control_topic_out }}
+
+# -----------------------------------------------------
+# Marathon REST url
+# -----------------------------------------------------
+#csf.controller.marathon.rest.url={{ cen_csf_controller_csf_controller_marathon_rest_url }}
+csf.controller.marathon.rest.url=http://{% for marathon_server_ip in groups['marathon-masters'] %}{{marathon_server_ip}}:{{ cen_csf_controller_csf_controller_marathon_rest_port }}{% if not loop.last %},{% endif %}{% endfor %}/{{ cen_csf_controller_csf_controller_marathon_rest_uri }}
+csf.controller.mesosmaster.rest.url=mesos://{% for mesos_server_ip in groups['mesos-masters'] %}{{mesos_server_ip}}:{{ cen_csf_controller_csf_controller_mesosmaster_rest_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+# -----------------------------------------------------
+# Micro-services Related Settings
+# -----------------------------------------------------
+csf.controller.ms.engine.classpath={{ cen_csf_controller_csf_controller_ms_engine_classpath }}
+csf.controller.ms.clientjars.dir={{ cen_csf_controller_csf_controller_ms_clientjars_dir }}
+csf.controller.ms.parserjars.dir={{ cen_csf_controller_csf_controller_ms_parserjars_dir }}
+csf.controller.ms.engine.flush={{ cen_csf_controller_csf_controller_ms_engine_flush }}
+csf.controller.ms.yarn.dir={{ cen_csf_controller_csf_controller_ms_yarn_dir }}
+
+csf.controller.remote.file.absolutepath={{ cen_csf_controller_csf_controller_remote_file_absolutepath }}
+csf.controlproxy.fs.mount={{ cen_csf_controller_csf_controlproxy_fs_mount }}
+
+# -----------------------------------------------------
+# Postgres Database Configurations
+# -----------------------------------------------------
+rdbms.url={{ cen_csf_controller_rdbms_url }}
+rdbms.username={{ cen_csf_controller_rdbms_username }}
+rdbms.password={{ cen_csf_controller_rdbms_password }}
+rdbms.driver={{ cen_csf_controller_rdbms_driver }}
+
+# -----------------------------------------------------
+# commonws API for updating uri mapping
+# -----------------------------------------------------
+commonws.uri.mapping.endPoint={{ cen_csf_controller_commonws_uri_mapping_endPoint }}
+commonws.uri.mapping.createOne={{ cen_csf_controller_commonws_uri_mapping_createOne }}
+commonws.uri.mapping.createMultiple={{ cen_csf_controller_commonws_uri_mapping_createMultiple }}
+commonws.uri.mapping.delete={{ cen_csf_controller_commonws_uri_mapping_delete }}
+
+# -----------------------------------------------------
+# commonws API for update/delete Streaming mapping
+# -----------------------------------------------------
+commonws.streaming.mapping.endPoint={{ cen_csf_controller_commonws_streaming_mapping_endPoint }}
+commonws.streaming.mapping.createOne={{ cen_csf_controller_commonws_streaming_mapping_createOne }}
+commonws.streaming.mapping.createMultiple={{ cen_csf_controller_commonws_streaming_mapping_createMultiple }}
+commonws.streaming.mapping.delete={{ cen_csf_controller_commonws_streaming_mapping_delete }}
+
+# -----------------------------------------------------
+# commonws uri base for trace manager
+# -----------------------------------------------------
+commonws.uri.base={{ cen_csf_controller_commonws_uri_base }}
+
+########################################################################################################
+## kafka.dot.nine.properties
+########################################################################################################
+#bootstrap.servers={{ cen_csf_controller_bootstrap_servers }}
+bootstrap.servers={% for kafka_server_ip in groups['kafka-servers'] %}{{kafka_server_ip}}:{{ hostvars[kafka_server_ip]['kafka_port']}}{% if not loop.last %},{% endif %}{% endfor %}
+#zookeeper.connect={{ cen_csf_controller_zookeeper_connect }}
+zookeeper.connect={% for zk_server_ip in groups['zookeeper-servers'] %}{{zk_server_ip}}:{{ hostvars[zk_server_ip]['zookeeper_srv_port']}}{% if not loop.last %},{% endif %}{% endfor %}/{{ cen_csf_controller_zookeeper_connect_uri }}
+
+
+acks={{ cen_csf_controller_acks }}
+retries={{ cen_csf_controller_retries }}
+batch.size={{ cen_csf_controller_batch_size }}
+linger.ms={{ cen_csf_controller_linger_ms }}
+buffer.memory={{ cen_csf_controller_buffer_memory }}
+key.serializer={{ cen_csf_controller_key_serializer }}
+value.serializer={{ cen_csf_controller_value_serializer }}
+
+group.id={{ cen_csf_controller_group_id }}
+enable.auto.commit={{ cen_csf_controller_enable_auto_commit }}
+auto.commit.interval.ms={{ cen_csf_controller_auto_commit_interval_ms }}
+session.timeout.ms={{ cen_csf_controller_session_timeout_ms }}
+key.deserializer={{ cen_csf_controller_key_deserializer }}
+value.deserializer={{ cen_csf_controller_value_deserializer }}

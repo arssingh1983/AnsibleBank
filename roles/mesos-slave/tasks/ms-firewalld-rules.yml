@@ -1,0 +1,14 @@
+---
+#
+# source = mesos-cluster/roles/mesos-slave/tasks/ms-firewalld-rules.yml
+#
+
+ - name: setup Mesos-Slave firewalld rules
+   firewalld:
+     port={{ item }}/tcp
+     permanent=yes
+     state=enabled
+     immediate=yes
+   with_items:
+     - "{{ mesos_slave_port }}"
+

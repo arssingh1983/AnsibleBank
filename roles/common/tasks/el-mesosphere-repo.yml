@@ -1,0 +1,18 @@
+---
+#
+# mesos-cluster/roles/common/tasks/el-mesosphere-repo.yml
+#
+# source = https://gitscm.cisco.com/projects/STIC/repos/ansible-roles-mesos-cluster/browse/roles/common/tasks/el-mesosphere-repo.yml?raw
+#
+
+- name: install Mesosphere repository (EL6)
+  yum:
+    name=http://repos.mesosphere.com/el/6/noarch/RPMS/mesosphere-el-repo-6-2.noarch.rpm
+    state=present
+  when: (ansible_os_family == "RedHat") and (ansible_distribution_major_version == "6")
+  
+- name: install Mesosphere repository (EL7)
+  yum:
+    name=http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
+    state=present
+  when: (ansible_os_family == "RedHat") and (ansible_distribution_major_version == "7")

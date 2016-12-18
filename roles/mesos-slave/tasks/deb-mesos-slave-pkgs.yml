@@ -1,0 +1,12 @@
+---
+# tasks file for mesos-slave
+#
+# mesos-cluster/roles/mesos-slave/tasks/deb-mesos-slave-pkgs.yml
+#
+
+ - name: install Mesos-Slave packages for Debian
+   apt: pkg={{ item }} state=present
+   with_items:
+     - mesosphere
+     - mesos
+     - docker.io

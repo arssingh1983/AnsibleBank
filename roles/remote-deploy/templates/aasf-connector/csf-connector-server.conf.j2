@@ -1,0 +1,54 @@
+
+########################################################################################################
+## csf.connector.server.properties 
+########################################################################################################
+
+## Server
+server.node.id={{ rem_csf_connector_server_server_node_id }}
+
+## Metrics
+metrics.delay.seconds={{ rem_csf_connector_server_metrics_delay_seconds }}
+
+## TLS
+server.jks.file={{ rem_csf_connector_server_server_jks_file }}
+server.jks.pass={{ rem_csf_connector_server_server_jks_pass }}
+
+## Ports used by Jetty
+jetty.https.port={{ rem_csf_connector_server_jetty_https_port }}
+jetty.http.port={{ rem_csf_connector_server_jetty_http_port }}
+jetty.http.ip={{ rem_csf_connector_server_jetty_http_ip }}
+
+## Server Topics
+server.out.topic.prefix={{ rem_csf_connector_server_server_out_topic_prefix }}
+server.in.topic.prefix={{ rem_csf_connector_server_server_in_topic_prefix }}
+server.file.in.topic.prefix={{ rem_csf_connector_server_server_file_in_topic_prefix }}
+#server.attending.nodes = node-1, node-2, node-3
+
+## File Storage
+server.file.storage.location={{ rem_csf_connector_server_server_file_storage_location }}
+
+## Kafka
+server.kafka.group.id={{ rem_csf_connector_server_server_kafka_group_id }}
+
+########################################################################################################
+## postgres.properties 
+########################################################################################################
+
+rdbms.url={{ rem_csf_connector_server_rdbms_url }}
+rdbms.username={{ rem_csf_connector_server_rdbms_username }}
+rdbms.password={{ rem_csf_connector_server_rdbms_password }}
+rdbms.driver={{ rem_csf_connector_server_rdbms_driver }}
+rdbms.validation.query={{ rem_csf_connector_server_rdbms_validation_query }}
+
+########################################################################################################
+## kafka.properties 
+########################################################################################################
+
+#bootstrap.servers = csf-dev-001:9092,csf-dev-002:9092,csf-dev-003:9092,csf-dev-004:9092
+
+########################################################################################################
+## log4j.properties 
+########################################################################################################
+
+log4j.rollingFileAppender.filelocation={{ rem_csf_connector_server_log4j_rollingFileAppender_filelocation }}
+log4j.rollingFileAppender.fileNamePrefix={{ rem_csf_connector_server_log4j_rollingFileAppender_fileNamePrefix }}

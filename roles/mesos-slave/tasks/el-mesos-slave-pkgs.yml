@@ -1,0 +1,11 @@
+---
+# tasks file for mesos-slave
+#
+# mesos-cluster/roles/mesos-slave/tasks/el-mesos-slave-pkgs.yml
+#
+
+ - name: install Mesos-Slave packages for EL
+   yum: name={{ item }} state=present
+   with_items:
+     - mesos
+     - docker

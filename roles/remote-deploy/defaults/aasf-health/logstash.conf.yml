@@ -1,0 +1,3 @@
+rem_logstash_input{: ""
+rem_logstash_filter{: ""
+rem_logstash_output{: ""

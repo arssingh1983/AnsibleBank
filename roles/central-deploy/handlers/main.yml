@@ -1,0 +1,13 @@
+---
+#
+# aasf-infra-auto/roles/central-deploy/handlers/main.yml
+#
+
+
+- name: remove AASF artifact archive
+  file:
+    path={{ cen_home_dir }}/{{ cen_tarball_dst }}
+    state=absent
+  when: cen_destroy_artifact_pkgs
+  become: yes
+  

@@ -1,0 +1,35 @@
+input{={{ rem_logstash_input{ }}
+    file {
+        path => "/csfnfs/logstashlog/*/*.log"
+        type => "log"
+        start_position => "beginning"
+    }
+    kafka {
+        zk_connect => "csf-dev-001.cisco.com:2181,csf-dev-002.cisco.com:2181,csf-dev-003.cisco.com:2181,csf-dev-004.cisco.com:2181,csf-dev-005.cisco.com:2181/kafka/bulk_plane001"
+        group_id => "logstash"
+        topic_id => "csf-events"
+        consumer_threads => 16
+    }
+}
+
+filter{={{ rem_logstash_filter{ }}
+    grok {
+        match => { "message" => "\[%{GREEDYDATA:data}\]\[%{NUMBER:epochtime}\]\[%{GREEDYDATA:throwable}\]\[%{JAVACLASS:logclass}\]\[%{LOGLEVEL:eventloglevel}\]\[%{GREEDYDATA:runtimeinsid}\] %{TIMESTAMP_ISO8601:orgeventlogtime}" }
+    }
+
+    date {
+        match => [ "orgeventlogtime", "YYYY-MM-dd'T'HH:mm:ss", "YYYY-MM-dd HH:mm:ss","HH:mm:ss MMM dd yyyy","YYYY-MM-dd HH:mm:ss,SSS","yyyy-MM-dd'T'HH:mm:ss.SSSZ","yyyy-MM-dd'T'HH:mm:ss.SSSZ+0300", "yyyy-MM-dd'T'HH:mm:ss.SSSSSS+0200", "yyyy-MM-dd'T'HH:mm:ss.SSSSSZ+0200", "YYYY-MM-dd'T'HH:mm:ssZ","YYYY-MM-dd'T'HH:mm:ss.sssZ"]
+        target => "eventlogtime"
+    }
+
+    ruby {
+        code => "require 'digest/md5';
+        event['computed_id'] = Digest::MD5.hexdigest(event['runtimeinsid'] + event['orgeventlogtime'] + event['eventloglevel'] + event['logclass'] )"
+    }
+}
+
+output{={{ rem_logstash_output{ }}
+    elasticsearch { hosts => ["csf-dev-008.cisco.com:9200"] document_id => "%{computed_id}"}
+    stdout { codec => rubydebug }
+}
+

@@ -1,0 +1,13 @@
+---
+#
+# source = mesos-cluster/roles/mesos-master/tasks/mm-iptables-rules.yml
+#
+
+ - name: setup Mesos-Master iptables rules
+   shell:
+     iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport {{ item }} -j ACCEPT
+   with_items:
+     - "{{ mesos_master_port }}"
+
+ - name: persist Mesos-Master iptables rules
+   shell: /sbin/service iptables save

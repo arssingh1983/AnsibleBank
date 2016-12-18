@@ -1,0 +1,10 @@
+---
+#
+# mesos-cluster/roles/zookeeper-master/tasks/zk-systemctl-svcs.yml
+#
+
+- name: enable and start zookeeper services
+  service:
+    name=zookeeper
+    state=restarted
+    enabled=yes

@@ -1,0 +1,1 @@
+zk://{% for zk_srv_ip in groups['zookeeper-servers'] %}{{zk_srv_ip}}:{{ hostvars[zk_srv_ip]['zookeeper_srv_port'] }}{% if not loop.last %},{% endif %}{% endfor %}/mesos

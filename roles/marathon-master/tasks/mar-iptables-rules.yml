@@ -1,0 +1,15 @@
+---
+#
+# source = mesos-cluster/roles/marathon-master/tasks/mar-iptables-rules.yml
+#
+
+ - name: setup Mesos-Master iptables rules
+   shell:
+     iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport {{ item }} -j ACCEPT
+   with_items:
+     - 8080
+
+ - name: persist Mesos-Master iptables rules
+   shell:
+     /sbin/service iptables save
+

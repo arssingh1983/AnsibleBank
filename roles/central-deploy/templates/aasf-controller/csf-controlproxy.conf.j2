@@ -1,0 +1,40 @@
+# -----------------------------------------------------------------------------------
+# CSF Control Proxy Configurations
+# Number values should not be followed by any blank space.
+# -----------------------------------------------------------------------------------
+
+# -----------------------------------------------------
+# Controller
+# -----------------------------------------------------
+csf.controller.control-topic-in={{ cen_csf_controlproxy_csf_controller_control_topic_in }}
+csf.controller.control-topic-out={{ cen_csf_controlproxy_csf_controller_control_topic_out }}
+
+# -----------------------------------------------------
+# Control Proxy
+# -----------------------------------------------------
+csf.controlproxy.node.id={{ cen_csf_controlproxy_csf_controlproxy_node_id }}
+csf.controlproxy.control-topic-in={{ cen_csf_controlproxy_csf_controlproxy_control_topic_in }}
+csf.controlproxy.control-topic-out={{ cen_csf_controlproxy_csf_controlproxy_control_topic_out }}
+
+########################################################################################################
+## kafka.dot.nine.properties
+########################################################################################################
+#bootstrap.servers={{ cen_csf_controlproxy_bootstrap_servers }}
+bootstrap.servers={% for kafka_server_ip in groups['kafka-servers'] %}{{kafka_server_ip}}:{{ hostvars[kafka_server_ip]['kafka_port']}}{% if not loop.last %},{% endif %}{% endfor %}
+#zookeeper.connect={{ cen_csf_controlproxy_zookeeper_connect }}
+zookeeper.connect={% for zk_server_ip in groups['zookeeper-servers'] %}{{zk_server_ip}}:{{ hostvars[zk_server_ip]['zookeeper_srv_port']}}{% if not loop.last %},{% endif %}{% endfor %}/{{ cen_csf_controller_zookeeper_connect_uri }}/{{ cen_csf_controlproxy_zookeeper_connect_uri }}
+
+acks={{ cen_csf_controlproxy_acks }}
+retries={{ cen_csf_controlproxy_retries }}
+batch.size={{ cen_csf_controlproxy_batch_size }}
+linger.ms={{ cen_csf_controlproxy_linger_ms }}
+buffer.memory={{ cen_csf_controlproxy_buffer_memory }}
+key.serializer={{ cen_csf_controlproxy_key_serializer }}
+value.serializer={{ cen_csf_controlproxy_value_serializer }}
+
+group.id={{ cen_csf_controlproxy_group_id }}
+enable.auto.commit={{ cen_csf_controlproxy_enable_auto_commit }}
+auto.commit.interval.ms={{ cen_csf_controlproxy_auto_commit_interval_ms }}
+session.timeout.ms={{ cen_csf_controlproxy_session_timeout_ms }}
+key.deserializer={{ cen_csf_controlproxy_key_deserializer }}
+value.deserializer={{ cen_csf_controlproxy_value_deserializer }}

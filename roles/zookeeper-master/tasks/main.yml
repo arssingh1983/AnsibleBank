@@ -1,0 +1,73 @@
+---
+# tasks file for zookeeper-master
+#
+# mesos-cluster/roles/zookeeper-master/tasks/main.yml
+#
+# source = https://gitscm.cisco.com/projects/STIC/repos/ansible-roles-mesos-cluster/browse/roles/zookeeper-master/tasks/main.yml?raw
+#
+# adapted from instructions here:
+# https://www.digitalocean.com/community/tutorials/how-to-configure-a-production-ready-mesosphere-cluster-on-ubuntu-14-04
+
+# packages on EL = mesosphere-zookeeper
+# packages on Deb = zookeeper, zookeeper-bin, zookeeperd
+#
+# depends on these variables/ports (set as defaults):
+# zk_client_port, zk_master_port, zk_election_port, zk_data_dir
+#
+# also depends on the variable zk_id (NOT set as default, must be set in hosts)
+
+- name: install Zookeeper packages (EL)
+  include: el-zookeeper-pkgs.yml
+  when: ansible_os_family == "RedHat"
+
+- name: install Zookeeper packages (Debian)
+  include: deb-zookeeper-pkgs.yml
+  when: ansible_os_family == "Debian"
+
+- name: set zookeeper server ID in /etc
+  template:
+    src=myid.j2
+    dest=/etc/zookeeper/conf/myid
+    mode=0644
+    backup=yes
+
+- name: set zookeeper server ID in /var/lib/zookeeper
+  template:
+    src=myid.j2
+    dest=/var/lib/zookeeper/myid
+    mode=0644
+    backup=yes
+
+- name: set zoo.cfg
+  template:
+    src=zoo.cfg.j2
+    dest=/etc/zookeeper/conf/zoo.cfg
+    mode=0644
+    backup=yes
+
+- name: test for firewalld
+  command: /usr/bin/which firewalld
+  register: result
+  ignore_errors: True
+
+- name: add firewalld rules
+  include: zk-firewalld-rules.yml
+  when: result.rc == 0
+
+- name: add iptables rules
+  include: zk-iptables-rules.yml
+  when: result.rc != 0
+
+# we're going to use the existence of /etc/init.d/zookeeper-server as a
+# test for whether or not we need to run initialization and some other stuff
+- name: check for /etc/init.d/zookeeper-server
+  stat: path=/etc/init.d/zookeeper-server
+  register: zookeeper_server_init
+
+- name: setup services for zookeeper
+  include: zk-systemctl-svcs.yml
+  when: zookeeper_server_init.stat.exists == False
+
+- name: setup services for zookeeper-server
+  include: zk-init-svcs.yml
+  when: zookeeper_server_init.stat.exists == True

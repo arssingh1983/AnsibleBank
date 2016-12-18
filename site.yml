@@ -1,0 +1,7 @@
+- name: deploy custom components to remote node
+  hosts: remote-nodes
+  become: yes
+
+  roles:
+    - { role: remote-deploy, tags: ["remote-deploy", "node1", "n1"] }
+

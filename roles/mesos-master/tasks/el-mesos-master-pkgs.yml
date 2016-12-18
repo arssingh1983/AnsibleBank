@@ -1,0 +1,11 @@
+---
+# tasks file for mesos-master
+#
+# mesos-cluster/roles/mesos-master/tasks/el-mesos-master-pkgs.yml
+#
+
+ - name: install Mesos-Master packages for EL
+   yum: name={{ item }} state=present
+   with_items:
+     - mesos
+

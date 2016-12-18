@@ -1,0 +1,3 @@
+rem_logstashkafka_input{: ""
+rem_logstashkafka_filter{: ""
+rem_logstashkafka_output{: ""

@@ -1,0 +1,7 @@
+KAFKA_SERVER_CONFIG={{ kafka_etc }}/server.properties
+KAFKA_LOG4J_OPTS="-Dkafka.logs.dir={{ kafka_log }} -Dlog4j.configuration=file://{{ kafka_etc }}/log4j.properties"
+KAFKA_GC_LOG_OPTS="-Xloggc:{{ kafka_log }}/kafkaServer-gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps"
+KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
+KAFKA_JVM_PERFORMANCE_OPTS="-server -XX:+UseCompressedOops -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC -Djava.awt.headless=true"
+KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+KAFKA_HOME="{{ kafka_home }}/current"

@@ -1,0 +1,13 @@
+---
+#
+# aasf-infra-auto/roles/postgresql/tasks/psql-firewalld-rules.yml
+#
+
+- name: setup PostgreSQL firewalld rules
+  firewalld:
+    port={{ item }}/tcp
+    permanent=yes
+    state=enabled
+    immediate=yes
+  with_items:
+    - "{{ postgres_db_port }}"

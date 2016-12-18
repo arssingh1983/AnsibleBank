@@ -1,0 +1,13 @@
+---
+#
+# aasf-infra-auto/roles/postgresql/tasks/psql-iptables-rules.yml
+#
+
+- name: setup PostgreSQL iptables rules
+  shell:
+    iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport {{ item }} -j ACCEPT
+  with_items:
+    - "{{ postgres_db_port }}"
+
+- name: persist PostgreSQL iptables rules
+  shell: /sbin/service iptables save

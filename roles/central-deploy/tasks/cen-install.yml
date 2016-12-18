@@ -1,0 +1,49 @@
+---
+#
+# aasf-infra-auto/roles/central-deploy/tasks/cen-install.yml
+#
+
+- name: make sure pre-requisite packages for AASF Central Node are installed
+  yum:
+    name={{ item }}
+    state=present
+  with_items:
+    - java-1.8.0-openjdk-headless
+    - epel-release
+    - daemonize
+
+- name: create group for AASF Central Node components
+  group:
+    name={{ cen_user_grp }}
+    state=present
+
+- name: create root directory for AASF Central Node components
+  file:
+    path={{ cen_home_dir }}
+    owner=root
+    group={{ cen_user_grp }}
+    mode=0755
+    state=directory
+
+- name: unpack AASF Central Node content on remote host
+  unarchive:
+    backup=no
+    copy=yes
+    src={{ cen_tarball_dst }}
+    dest={{ cen_home_dir }}
+    owner=root
+    group={{ cen_user_grp }}
+    mode=0775
+  notify: remove AASF artifact archive
+
+- name: install AASF Central Node components
+  include: cen-component-install.yml
+  with_items:
+    - aasf-commonws
+    - aasf-connector
+    - aasf-controller
+    - aasf-health
+    - aasf-sslmanager-commonws
+    - csfms
+  loop_control:
+    loop_var: component

@@ -1,0 +1,5 @@
+---
+# defaults file for mesos-slave
+
+mesos_slave_port: 5051
+

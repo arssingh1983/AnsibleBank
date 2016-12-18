@@ -1,0 +1,35 @@
+---
+# tasks file for common
+#
+# aasf-infra-auto/roles/common/el-extra-pkgs.yml
+#
+
+- name: install firewalld (EL7)
+  yum:
+    name=firewalld
+    state=present
+  sudo: yes
+  when: ansible_distribution_major_version >= "7"
+
+- name: enable firewalld service (EL7)
+  service:
+    name=firewalld
+    state=started
+    enabled=yes
+  sudo: yes
+  when: ansible_distribution_major_version >= "7"
+
+- name: install iptables (EL6)
+  yum:
+    name=iptables
+    state=present
+  sudo: yes
+  when: ansible_distribution_major_version <= "6"
+
+- name: enable iptables service (EL6)
+  service:
+    name=iptables
+    state=started
+    enabled=yes
+  sudo: yes
+  when: ansible_distribution_major_version <= "6"

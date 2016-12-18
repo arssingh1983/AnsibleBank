@@ -1,0 +1,28 @@
+---
+#
+# aasf-infra-auto/roles/postgresql/tasks/aasf-table-create.yml
+#
+
+- name: download SQL script
+  get_url:
+    dest=/tmp/{{ item | basename }}
+    backup=no
+    url={{ item }}
+    owner={{ postgres_user }}
+    mode=0600
+  notify: remove aasf_schema scripts
+
+# at the time of this writing, scripts affect the public PostgreSQL
+#   schema.  By default, we'll alter them to affect the aasf_db_name
+#   unless told otherwise.
+- block:
+    - name: correct table ownership assignment
+      replace:
+        dest=/tmp/{{ item | basename }}
+        backup=no
+        regexp='ALTER TABLE (.*) OWNER TO (.*);'
+        replace="ALTER TABLE \1 OWNER TO {{ aasf_db_user }};"
+  when: "{{ aasf_alter_scripts }}"
+
+- name: execute SQL script
+  command: /usr/bin/psql --file=/tmp/{{ item | basename }} --dbname={{ aasf_db_name }} --log-file=/tmp/{{ item | basename }}.log

@@ -1,0 +1,9 @@
+#
+# mesos-cluster/roles/kafka/tasks/kafka-iptables-rules.yml
+#
+
+ - name: setup Kafka iptables rules
+   shell: iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport {{ item }} -j ACCEPT ; /sbin/service iptables save
+   with_items: 
+     - 9092
+

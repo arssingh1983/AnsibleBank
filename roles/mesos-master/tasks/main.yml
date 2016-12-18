@@ -1,0 +1,64 @@
+---
+# tasks file for mesos-master
+#
+# mesos-cluster/roles/mesos-master/tasks/main.yml
+#
+#
+
+ - name: install Mesos-Master packages (EL)
+   include: el-mesos-master-pkgs.yml
+   when: ansible_os_family == "RedHat"
+
+ - name: install Mesos-Master packages (Debian)
+   include: deb-mesos-master-pkgs.yml
+   when: ansible_os_family == "Debian"
+
+ - name: setup Mesos Zookeeper pointer file
+   template:
+      backup=yes
+      dest=/etc/mesos/zk
+      mode=0644
+      src=zk.j2
+
+ - name: setup Mesos-Master config files
+   template:
+     backup=no
+     dest=/etc/mesos-master/{{ item }}
+     mode=0644
+     src={{ item }}.j2
+   with_items:
+     - hostname
+     - quorum
+     - ip
+     - port
+
+ - name: remove extraneous Mesos-Master port definition
+   lineinfile:
+     dest=/etc/default/mesos-master
+     regexp='^PORT='
+     state=absent
+
+ - name: test for firewalld
+   command: /usr/bin/which firewalld
+   register: result
+   ignore_errors: True
+
+ - name: add firewalld rules
+   include: mm-firewalld-rules.yml
+   when: result.rc == 0
+
+ - name: add iptables rules
+   include: mm-iptables-rules.yml
+   when: result.rc != 0
+
+ - name: setup mesos-master services
+   service:
+     name=mesos-master
+     state=restarted
+     enabled=yes
+
+ - name: disable mesos-slave services
+   service:
+     name=mesos-slave
+     state=stopped
+     enabled=no

@@ -1,0 +1,14 @@
+---
+#
+# source = mesos-cluster/roles/marathon-master/tasks/deb-marathon-pkgs.yml
+#
+
+ - name: Install Marathon packages for Debian
+   apt:
+     pkg={{ item }}
+     state=present
+     update_cache=yes
+   with_items:
+     - marathon
+   sudo: yes
+

@@ -1,0 +1,16 @@
+#
+# /var/lib/pgsql/data/pg_hba.conf
+#
+# This file was created by the posgresql role of the
+# Ansible aasf-infra-auto playbook.  This file is sourced
+# from the template file:
+# aasf-infra-auto/roles/postgresql/templates/pg_hba.conf.j2
+#
+# local      DATABASE  USER  METHOD  [OPTIONS]
+# host       DATABASE  USER  ADDRESS  METHOD  [OPTIONS]
+# hostssl    DATABASE  USER  ADDRESS  METHOD  [OPTIONS]
+# hostnossl  DATABASE  USER  ADDRESS  METHOD  [OPTIONS]
+
+local   all         {{ postgres_user }}                  ident
+local   all         all                                  md5
+host    all         all           0.0.0.0/0              md5

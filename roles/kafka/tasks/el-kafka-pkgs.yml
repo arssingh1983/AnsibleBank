@@ -1,0 +1,11 @@
+---
+#
+# mesos-cluster/roles/kafka/tasks/el-kafka-pkgs.yml
+#
+
+ - name: install Kafka prereq packages (EL)
+   yum: name={{item}} state=present
+   with_items:
+     - java-1.7.0-openjdk
+
+
