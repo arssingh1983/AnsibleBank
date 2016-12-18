@@ -1,6 +1,0 @@
-rem_connect_log4j_log4j_rootLogger: "INFO, stdout"
-rem_connect_log4j_log4j_appender_stdout: "org.apache.log4j.ConsoleAppender"
-rem_connect_log4j_log4j_appender_stdout_layout: "org.apache.log4j.PatternLayout"
-rem_connect_log4j_log4j_appender_stdout_layout_ConversionPattern: "[%d] %p %m (%c:%L)%n"
-rem_connect_log4j_log4j_logger_org_apache_zookeeper: "ERROR"
-rem_connect_log4j_log4j_logger_org_I0Itec_zkclient: "ERROR"

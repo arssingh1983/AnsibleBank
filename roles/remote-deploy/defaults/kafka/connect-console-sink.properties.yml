@@ -1,4 +1,0 @@
-rem_connect_console_sink_name: "local-console-sink"
-rem_connect_console_sink_connector_class: "org.apache.kafka.connect.file.FileStreamSinkConnector"
-rem_connect_console_sink_tasks_max: "1"
-rem_connect_console_sink_topics: "connect-test"

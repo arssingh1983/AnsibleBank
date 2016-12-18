@@ -1,5 +1,0 @@
-rem_connect_file_source_name: "local-file-source"
-rem_connect_file_source_connector_class: "FileStreamSource"
-rem_connect_file_source_tasks_max: "1"
-rem_connect_file_source_file: "test.txt"
-rem_connect_file_source_topic: "connect-test"

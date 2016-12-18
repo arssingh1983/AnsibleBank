@@ -1,3 +1,0 @@
-rem_zookeeper_dataDir: "/tmp/zookeeper"
-rem_zookeeper_clientPort: "2181"
-rem_zookeeper_maxClientCnxns: "0"
